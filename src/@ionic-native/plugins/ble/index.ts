@@ -19,6 +19,7 @@ export interface BLEScanOptions {
  * - Read the value of a characteristic
  * - Write new value to a characteristic
  * - Get notified when characteristic's value changes
+ * - Run the Nordic NRF52 DFU Firmware update
  *
  * Advertising information is returned when scanning for peripherals. Service, characteristic, and property info is returned when connecting to a peripheral. All access is via service and characteristic UUIDs. The plugin manages handles internally.
  *
@@ -179,7 +180,7 @@ export interface BLEScanOptions {
   pluginName: 'BLE',
   plugin: 'cordova-plugin-ble-central',
   pluginRef: 'ble',
-  repo: 'https://github.com/don/cordova-plugin-ble-central',
+  repo: 'https://github.com/fxe-gear/cordova-plugin-ble-central',
   platforms: ['Android', 'iOS']
 })
 @Injectable()
@@ -622,6 +623,35 @@ export class BLE extends IonicNativePlugin {
    */
   @Cordova()
   bondedDevices(): Promise<any[]> {
+    return;
+  }
+
+  /**
+   * Upgrades peripheral firmware using the Nordic Semiconductors' proprietary DFU protocol (hence only Nordic nRF5x series devices can be upgraded)
+   * more info: https://github.com/fxe-gear/cordova-plugin-ble-central
+   * implementation example: https://github.com/fxe-gear/fxe-app/blob/master/app/controllers/firmware-upgrade.js
+   *
+   * @usage
+   * ```
+   * // presume connected device
+   *
+   * var device_id = "BD922605-1B07-4D55-8D09-B66653E51BBA"
+   * var uri = "file:///var/mobile/Applications/12312-1231-1231-123312-123123/Documents/firmware.zip";
+   *
+   * ble.upgradeFirmware(device_id, uri, console.log, console.error);
+   * ```
+   *
+   * @param {string} deviceId UUID or MAC address of the peripheral
+   * @param {string} uri URI of a firmware ZIP file on the local filesystem (see cordova-plugin-file). Currently only supported firmware format is a ZIP file prepared using Nordic CLI utilities.
+   * @returns {Observable<any>} Returns an Observable that notifies of the upgrade process
+   */
+  @Cordova({
+    observable: true
+  })
+  upgradeFirmware(
+    deviceId: string,
+    uri: string
+  ): Observable<any> {
     return;
   }
 }
