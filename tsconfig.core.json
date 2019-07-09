@@ -17,7 +17,8 @@
     "sourceMap": true
   },
   "include": [
-    "src/@ionic-native/core/**/*.ts"
+    "src/@ionic-native/core/**/*.ts",
+    "src/@ionic-native/plugins/ble/*.ts"
   ],
   "exclude": [
     "node_modules",
